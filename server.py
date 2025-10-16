@@ -61,6 +61,16 @@ def get_schedules():
         app.logger.exception("Error in /schedules")
         return make_response(jsonify({"error": "internal server error", "schedules": ""}), 500)
 
+@app.route("/refresh")
+def refresh():
+    try:
+        # Here you can re-run your model or pull new data files
+        # For now, we'll just note the time it was refreshed
+        print(f"Data refreshed at {time.ctime()}")
+        return jsonify({"status": "success", "message": "Files reloaded"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 if __name__ == "__main__":
     # debug True is OK for local development
     app.run(host="0.0.0.0", port=5000, debug=True)
